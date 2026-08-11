@@ -8,29 +8,48 @@ puppeteer.use(StealthPlugin());
     try {
         const browser = await puppeteer.launch({ 
             headless: true, 
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] 
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1920,1080'] 
         });
         const page = await browser.newPage();
         
+        await page.setViewport({ width: 1920, height: 1080 });
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
         
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'domcontentloaded' });
         
+        await page.evaluate(async () => {
+            await new Promise((resolve) => {
+                let totalHeight = 0;
+                const distance = 200;
+                const timer = setInterval(() => {
+                    const scrollHeight = document.body.scrollHeight;
+                    window.scrollBy(0, distance);
+                    totalHeight += distance;
+
+                    if (totalHeight >= scrollHeight || totalHeight > 10000) {
+                        clearInterval(timer);
+                        resolve();
+                    }
+                }, 150);
+            });
+        });
+
         await new Promise(r => setTimeout(r, 5000));
         
-        await page.screenshot({ path: 'debug.png' });
+        await page.screenshot({ path: 'debug.png', fullPage: true });
         
         const data = await page.evaluate(() => {
             const items = {};
-            const cards = document.querySelectorAll('div, a');
+            const allElements = document.querySelectorAll('div, a');
             
-            cards.forEach(card => {
-                const textContent = card.innerText || "";
-                if (textContent.includes("Value") && textContent.includes("Demand") && textContent.includes("Trend")) {
-                    const lines = textContent.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+            allElements.forEach(el => {
+                const text = el.innerText || "";
+                if (text.includes("Value") && text.includes("Demand") && text.includes("Trend")) {
+                    const lines = text.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+                    
                     const name = lines[0];
                     
-                    if (!name || name.includes("Value List") || name.includes("Default View Mode")) return;
+                    if (!name || name.includes("Value List") || name.includes("Regular") || lines.length > 30) return;
                     
                     let value = "0";
                     let demand = "0";
@@ -42,7 +61,7 @@ puppeteer.use(StealthPlugin());
                         if (lines[i] === "Trend" && lines[i+1]) trend = lines[i+1];
                     }
                     
-                    if (!items[name]) {
+                    if (!items[name] && value !== "0") {
                         items[name] = {
                             Value: value,
                             Demand: demand,
