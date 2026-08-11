@@ -30,6 +30,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add values.json
-          git commit -m "Auto-update values.json" || exit 0
+          git add values.json debug.png
+          git commit -m "Auto-update values and debug image" || exit 0
           git push
