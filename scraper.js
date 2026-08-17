@@ -40,22 +40,23 @@ puppeteer.use(StealthPlugin());
             const items = {};
             const skipHeaders = [
                 "MYTHICAL", "LEGENDARY", "RARE", "UNCOMMON", 
-                "COMMON", "LIMITED", "GAMEPASS", "Value"
+                "COMMON", "LIMITED", "GAMEPASS", "VALUE"
             ];
             
-            const scrapeCurrentDOM = (isPerm) => {
+            const scrapeCurrentDOM = (isPermSweep) => {
                 const allElements = document.querySelectorAll('div, a');
                 
                 allElements.forEach(el => {
                     const text = el.innerText || "";
                     if (text.includes("Value") && text.includes("Demand") && text.includes("Trend")) {
                         const lines = text.split('\n').map(t => t.trim()).filter(t => t.length > 0);
-                        
                         const name = lines[0];
                         
-                        if (!name || skipHeaders.includes(name) || name.includes("Value List") || name.includes("Regular") || lines.length > 30) return;
+                        if (!name || skipHeaders.includes(name.toUpperCase()) || name.includes("Value List") || lines.length > 30) return;
                         
-                        if (isPerm && !text.includes("Permanent") && !text.includes("Perm")) return;
+                        const hasToggle = text.includes("Regular") && text.includes("Permanent");
+                        
+                        if (isPermSweep && !hasToggle) return;
                         
                         let value = "0";
                         let demand = "0";
@@ -67,7 +68,12 @@ puppeteer.use(StealthPlugin());
                             if (lines[i] === "Trend" && lines[i+1]) trend = lines[i+1];
                         }
                         
-                        const finalName = isPerm ? "Permanent " + name : name;
+                        let finalName = name;
+                        if (isPermSweep && hasToggle) {
+                            if (!name.toLowerCase().startsWith("permanent")) {
+                                finalName = "Permanent " + name;
+                            }
+                        }
                         
                         if (!items[finalName] && value !== "0") {
                             items[finalName] = {
