@@ -1,15 +1,5 @@
 {
-  "MYTHICAL": {
-    "Value": "3.91B",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
   "West Dragon": {
-    "Value": "3.91B",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Value": {
     "Value": "3.91B",
     "Demand": "7/10",
     "Trend": "Stable"
@@ -43,11 +33,6 @@
     "Value": "130M",
     "Demand": "8/10",
     "Trend": "Stable"
-  },
-  "LEGENDARY": {
-    "Value": "50M",
-    "Demand": "5/10",
-    "Trend": "Underpaid"
   },
   "Lightning": {
     "Value": "50M",
@@ -134,22 +119,12 @@
     "Demand": "3/10",
     "Trend": "Stable"
   },
-  "RARE": {
-    "Value": "1.15M",
-    "Demand": "5/10",
-    "Trend": "Overpaid"
-  },
   "Magma": {
     "Value": "1.15M",
     "Demand": "5/10",
     "Trend": "Overpaid"
   },
   "Quake": {
-    "Value": "1M",
-    "Demand": "2/10",
-    "Trend": "Stable"
-  },
-  "UNCOMMON": {
     "Value": "1M",
     "Demand": "2/10",
     "Trend": "Stable"
@@ -199,11 +174,6 @@
     "Demand": "1/10",
     "Trend": "Stable"
   },
-  "COMMON": {
-    "Value": "180K",
-    "Demand": "1/10",
-    "Trend": "Stable"
-  },
   "Spike": {
     "Value": "180K",
     "Demand": "1/10",
@@ -238,11 +208,6 @@
     "Value": "5K",
     "Demand": "1/10",
     "Trend": "Stable"
-  },
-  "LIMITED": {
-    "Value": "N/A",
-    "Demand": "6/10",
-    "Trend": "Overpaid"
   },
   "Permanent Dragon Token": {
     "Value": "N/A",
@@ -419,11 +384,6 @@
     "Demand": "SOON",
     "Trend": "Stable"
   },
-  "GAMEPASS": {
-    "Value": "4.79B",
-    "Demand": "9/10",
-    "Trend": "Stable"
-  },
   "Fruit Notifier": {
     "Value": "4.79B",
     "Demand": "9/10",
@@ -469,17 +429,7 @@
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
-  "Permanent MYTHICAL": {
-    "Value": "7.1B",
-    "Demand": "9/10",
-    "Trend": "Overpaid"
-  },
   "Permanent West Dragon": {
-    "Value": "7.1B",
-    "Demand": "9/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Value": {
     "Value": "7.1B",
     "Demand": "9/10",
     "Trend": "Overpaid"
@@ -512,11 +462,6 @@
   "Permanent Tiger": {
     "Value": "5.34B",
     "Demand": "9/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent LEGENDARY": {
-    "Value": "3.43B",
-    "Demand": "8/10",
     "Trend": "Overpaid"
   },
   "Permanent Lightning": {
@@ -604,11 +549,6 @@
     "Demand": "3/10",
     "Trend": "Overpaid"
   },
-  "Permanent RARE": {
-    "Value": "1.26B",
-    "Demand": "7/10",
-    "Trend": "Overpaid"
-  },
   "Permanent Magma": {
     "Value": "1.26B",
     "Demand": "7/10",
@@ -616,11 +556,6 @@
   },
   "Permanent Quake": {
     "Value": "1.59B",
-    "Demand": "3/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent UNCOMMON": {
-    "Value": "840M",
     "Demand": "3/10",
     "Trend": "Overpaid"
   },
@@ -669,11 +604,6 @@
     "Demand": "2/10",
     "Trend": "Overpaid"
   },
-  "Permanent COMMON": {
-    "Value": "140M",
-    "Demand": "1/10",
-    "Trend": "Stable"
-  },
   "Permanent Spike": {
     "Value": "140M",
     "Demand": "1/10",
@@ -709,229 +639,9 @@
     "Demand": "2/10",
     "Trend": "Stable"
   },
-  "Permanent LIMITED": {
-    "Value": "N/A",
-    "Demand": "6/10",
-    "Trend": "Overpaid"
-  },
   "Permanent Permanent Dragon Token": {
     "Value": "N/A",
     "Demand": "6/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Doghouse (Frame Break)": {
-    "Value": "6.97B",
-    "Demand": "10/10",
-    "Trend": "SOON"
-  },
-  "Permanent Rabid Dog Blade": {
-    "Value": "6.24B",
-    "Demand": "10/10",
-    "Trend": "SOON"
-  },
-  "Permanent Dog Blade": {
-    "Value": "580M",
-    "Demand": "8/10",
-    "Trend": "SOON"
-  },
-  "Permanent Fiend Yeti": {
-    "Value": "960M",
-    "Demand": "9/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Galaxy Empyrean Kitsune": {
-    "Value": "11.96B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Ember West Dragon": {
-    "Value": "7.1B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Crimson Kitsune": {
-    "Value": "8.7B",
-    "Demand": "10/10",
-    "Trend": "Stable"
-  },
-  "Permanent Meme-Meme": {
-    "Value": "4.61B",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Permanent Divine Portal": {
-    "Value": "1.67B",
-    "Demand": "10/10",
-    "Trend": "Stable"
-  },
-  "Permanent Purple Lightning": {
-    "Value": "5.34B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Parrot": {
-    "Value": "N/A",
-    "Demand": "1/10",
-    "Trend": "Stable"
-  },
-  "Permanent Red Lightning": {
-    "Value": "2.88B",
-    "Demand": "10/10",
-    "Trend": "Stable"
-  },
-  "Permanent Yellow Lightning": {
-    "Value": "1.76B",
-    "Demand": "10/10",
-    "Trend": "Stable"
-  },
-  "Permanent Green Lightning": {
-    "Value": "410M",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Permanent Werewolf": {
-    "Value": "1.06B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Rose Quartz Diamond": {
-    "Value": "350M",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Permanent Emerald Diamond": {
-    "Value": "220M",
-    "Demand": "5/10",
-    "Trend": "Stable"
-  },
-  "Permanent Topaz Diamond": {
-    "Value": "220M",
-    "Demand": "5/10",
-    "Trend": "Stable"
-  },
-  "Permanent Ruby Diamond": {
-    "Value": "160M",
-    "Demand": "5/10",
-    "Trend": "Stable"
-  },
-  "Permanent Eclipse": {
-    "Value": "N/A",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Super Spirit Pain": {
-    "Value": "3.3B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Torment Pain": {
-    "Value": "160M",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Permanent Sadness Pain": {
-    "Value": "860M",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Permanent Frustration Pain": {
-    "Value": "900M",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Permanent Celestial Pain": {
-    "Value": "1.02B",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Permanent Eagle Requiem": {
-    "Value": "160M",
-    "Demand": "4/10",
-    "Trend": "Stable"
-  },
-  "Permanent Eagle Glacier": {
-    "Value": "20M",
-    "Demand": "2/10",
-    "Trend": "Stable"
-  },
-  "Permanent Eagle Matrix": {
-    "Value": "250M",
-    "Demand": "5/10",
-    "Trend": "Stable"
-  },
-  "Permanent Celebration Bomb": {
-    "Value": "10M",
-    "Demand": "2/10",
-    "Trend": "Stable"
-  },
-  "Permanent Azura Bomb": {
-    "Value": "640M",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Permanent Thermite Bomb": {
-    "Value": "580M",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Permanent Nuclear Bomb": {
-    "Value": "610M",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Permanent Orange Portal": {
-    "Value": "N/A",
-    "Demand": "SOON",
-    "Trend": "Stable"
-  },
-  "Permanent GAMEPASS": {
-    "Value": "4.79B",
-    "Demand": "9/10",
-    "Trend": "Stable"
-  },
-  "Permanent Fruit Notifier": {
-    "Value": "4.79B",
-    "Demand": "9/10",
-    "Trend": "Stable"
-  },
-  "Permanent Dark Blade": {
-    "Value": "1.02B",
-    "Demand": "9/10",
-    "Trend": "Stable"
-  },
-  "Permanent Mythical Scrolls": {
-    "Value": "1.59B",
-    "Demand": "4/10",
-    "Trend": "Stable"
-  },
-  "Permanent Legendary Scrolls": {
-    "Value": "680M",
-    "Demand": "3/10",
-    "Trend": "Stable"
-  },
-  "Permanent +1 Fruit Storage": {
-    "Value": "450M",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent 2x Mastery": {
-    "Value": "450M",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent 2x Money": {
-    "Value": "450M",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent 2x Boss Drops": {
-    "Value": "300M",
-    "Demand": "8/10",
-    "Trend": "Overpaid"
-  },
-  "Permanent Fast Boats": {
-    "Value": "300M",
-    "Demand": "9/10",
     "Trend": "Overpaid"
   }
 }
