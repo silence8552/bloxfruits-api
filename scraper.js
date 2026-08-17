@@ -36,10 +36,12 @@ puppeteer.use(StealthPlugin());
 
         await new Promise(r => setTimeout(r, 5000));
         
-        await page.screenshot({ path: 'debug.png', fullPage: true });
-        
         const data = await page.evaluate(async () => {
             const items = {};
+            const skipHeaders = [
+                "MYTHICAL", "LEGENDARY", "RARE", "UNCOMMON", 
+                "COMMON", "LIMITED", "GAMEPASS", "Value"
+            ];
             
             const scrapeCurrentDOM = (isPerm) => {
                 const allElements = document.querySelectorAll('div, a');
@@ -51,7 +53,9 @@ puppeteer.use(StealthPlugin());
                         
                         const name = lines[0];
                         
-                        if (!name || name.includes("Value List") || name.includes("Regular") || lines.length > 30) return;
+                        if (!name || skipHeaders.includes(name) || name.includes("Value List") || name.includes("Regular") || lines.length > 30) return;
+                        
+                        if (isPerm && !text.includes("Permanent") && !text.includes("Perm")) return;
                         
                         let value = "0";
                         let demand = "0";
