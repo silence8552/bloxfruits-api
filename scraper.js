@@ -38,38 +38,60 @@ puppeteer.use(StealthPlugin());
         
         await page.screenshot({ path: 'debug.png', fullPage: true });
         
-        const data = await page.evaluate(() => {
+        const data = await page.evaluate(async () => {
             const items = {};
-            const allElements = document.querySelectorAll('div, a');
             
-            allElements.forEach(el => {
-                const text = el.innerText || "";
-                if (text.includes("Value") && text.includes("Demand") && text.includes("Trend")) {
-                    const lines = text.split('\n').map(t => t.trim()).filter(t => t.length > 0);
-                    
-                    const name = lines[0];
-                    
-                    if (!name || name.includes("Value List") || name.includes("Regular") || lines.length > 30) return;
-                    
-                    let value = "0";
-                    let demand = "0";
-                    let trend = "Stable";
-                    
-                    for (let i = 0; i < lines.length; i++) {
-                        if (lines[i] === "Value" && lines[i+1]) value = lines[i+1];
-                        if (lines[i] === "Demand" && lines[i+1]) demand = lines[i+1];
-                        if (lines[i] === "Trend" && lines[i+1]) trend = lines[i+1];
+            const scrapeCurrentDOM = (isPerm) => {
+                const allElements = document.querySelectorAll('div, a');
+                
+                allElements.forEach(el => {
+                    const text = el.innerText || "";
+                    if (text.includes("Value") && text.includes("Demand") && text.includes("Trend")) {
+                        const lines = text.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+                        
+                        const name = lines[0];
+                        
+                        if (!name || name.includes("Value List") || name.includes("Regular") || lines.length > 30) return;
+                        
+                        let value = "0";
+                        let demand = "0";
+                        let trend = "Stable";
+                        
+                        for (let i = 0; i < lines.length; i++) {
+                            if (lines[i] === "Value" && lines[i+1]) value = lines[i+1];
+                            if (lines[i] === "Demand" && lines[i+1]) demand = lines[i+1];
+                            if (lines[i] === "Trend" && lines[i+1]) trend = lines[i+1];
+                        }
+                        
+                        const finalName = isPerm ? "Permanent " + name : name;
+                        
+                        if (!items[finalName] && value !== "0") {
+                            items[finalName] = {
+                                Value: value,
+                                Demand: demand,
+                                Trend: trend
+                            };
+                        }
                     }
-                    
-                    if (!items[name] && value !== "0") {
-                        items[name] = {
-                            Value: value,
-                            Demand: demand,
-                            Trend: trend
-                        };
-                    }
-                }
+                });
+            };
+
+            scrapeCurrentDOM(false);
+
+            const buttons = Array.from(document.querySelectorAll('button, div')).filter(el => 
+                el.innerText && el.innerText.trim() === "Permanent"
+            );
+            
+            buttons.forEach(btn => {
+                try {
+                    btn.click();
+                } catch (e) {}
             });
+
+            await new Promise(r => setTimeout(r, 2000));
+
+            scrapeCurrentDOM(true);
+
             return items;
         });
 
