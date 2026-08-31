@@ -30,7 +30,6 @@ puppeteer.use(StealthPlugin());
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'domcontentloaded', timeout: 60000 });
         
         console.log("Waiting for LIVE data to render...");
-        // THE FIX: This forces the script to freeze until a demand fraction physically appears on screen.
         await page.waitForFunction(() => document.body.innerText.match(/[0-9]+\/10/), { timeout: 45000 });
 
         console.log("Scrolling page to trigger lazy loading...");
@@ -45,8 +44,6 @@ puppeteer.use(StealthPlugin());
             return await page.evaluate((isPerm) => {
                 const items = {};
                 
-                // ULTIMATE FIX: Bypass all HTML tags, divs, and layouts completely. 
-                // Convert the entire page into a single flat array of visible words.
                 const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
                 const words = [];
                 let n;
@@ -58,26 +55,26 @@ puppeteer.use(StealthPlugin());
                 for (let i = 0; i < words.length; i++) {
                     const w = words[i].toLowerCase();
                     
-                    // 1. ANCHOR: Find the Demand fraction (e.g. "10/10")
-                    if (w.match(/[0-9]+\/10/)) {
+                    // 1. ANCHOR: Find the Demand fraction
+                    if (w.match(/^[0-9]+\/10$/)) {
                         const demand = w.match(/[0-9]+\/10/)[0].toUpperCase();
                         
-                        // 2. Look ahead for Trend
+                        // 2. Look forward AND backward for Trend (Gamepasses put Trend before Demand)
                         let trend = "Stable";
-                        for (let j = 1; j <= 5; j++) {
+                        for (let j = -6; j <= 6; j++) {
                             if (words[i+j]) {
                                 const t = words[i+j].toLowerCase();
-                                if (t.includes("overpaid")) { trend = "Overpaid"; break; }
-                                if (t.includes("underpaid")) { trend = "Underpaid"; break; }
-                                if (t.includes("stable")) { trend = "Stable"; break; }
-                                if (t.includes("soon")) { trend = "SOON"; break; }
+                                if (t === "overpaid") { trend = "Overpaid"; break; }
+                                if (t === "underpaid") { trend = "Underpaid"; break; }
+                                if (t === "stable") { trend = "Stable"; break; }
+                                if (t === "soon") { trend = "SOON"; break; }
                             }
                         }
                         
                         // 3. Look backward for Value
                         let value = "0";
                         let valIdx = -1;
-                        for (let j = 1; j <= 6; j++) {
+                        for (let j = 1; j <= 8; j++) {
                             if (words[i-j]) {
                                 const v = words[i-j].toUpperCase();
                                 if (v.match(/^[0-9\.]+[KMBT]$/) || v === "N/A" || v.match(/^[0-9]+$/)) {
@@ -90,12 +87,24 @@ puppeteer.use(StealthPlugin());
                         
                         // 4. Look backward for Name
                         let name = "";
-                        const skip = ["mythical", "legendary", "rare", "uncommon", "common", "gamepass", "new", "regular", "permanent", "value", "value:", "demand", "demand:", "trend", "trend:", "limited"];
+                        const exactSkip = ["mythical", "legendary", "rare", "uncommon", "common", "gamepass", "new", "regular", "permanent", "value", "demand", "trend", "limited"];
+                        
                         if (valIdx !== -1) {
-                            for (let j = 1; j <= 8; j++) {
+                            for (let j = 1; j <= 12; j++) {
                                 if (words[valIdx-j]) {
                                     const cand = words[valIdx-j];
-                                    if (!skip.includes(cand.toLowerCase()) && cand.length > 2 && !cand.match(/^[0-9]/)) {
+                                    const cLow = cand.toLowerCase();
+                                    
+                                    // Skip exact category words
+                                    if (exactSkip.includes(cLow)) continue;
+                                    
+                                    // Skip website UI text (Robux price, Updated X days ago)
+                                    if (cLow.startsWith("updated") || cLow.startsWith("robux")) continue;
+                                    
+                                    // Skip pure numbers or value/demand formatting
+                                    if (cand.match(/^[0-9\.]+[KMBT]?$/i) || cand.match(/^[0-9]+\/10$/) || cand.match(/^[0-9]+$/)) continue;
+                                    
+                                    if (cand.length >= 2) {
                                         name = cand;
                                         break;
                                     }
@@ -106,7 +115,7 @@ puppeteer.use(StealthPlugin());
                         // 5. Check if it's eligible for a Permanent variant
                         let canBePermanent = false;
                         if (valIdx !== -1) {
-                            for (let j = 1; j <= 15; j++) {
+                            for (let j = 1; j <= 20; j++) {
                                 if (words[valIdx-j] && (words[valIdx-j].toLowerCase() === "regular" || words[valIdx-j].toLowerCase() === "permanent")) {
                                     canBePermanent = true;
                                     break;
