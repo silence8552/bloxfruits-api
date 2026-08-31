@@ -16,10 +16,10 @@ puppeteer.use(StealthPlugin());
         await page.setViewport({ width: 1920, height: 1080 });
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
         
-        // Block heavy media to stop timeouts, but allow scripts to run
+        // Block heavy assets to prevent timeouts, but allow scripts to fetch the live data
         await page.setRequestInterception(true);
         page.on('request', (req) => {
-            if (['image', 'media'].includes(req.resourceType())) {
+            if (['image', 'media', 'stylesheet', 'font'].includes(req.resourceType())) {
                 req.abort();
             } else {
                 req.continue();
@@ -29,9 +29,9 @@ puppeteer.use(StealthPlugin());
         console.log("Navigating to site...");
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'domcontentloaded', timeout: 60000 });
         
-        console.log("Waiting for Javascript to load the live data...");
-        // THIS IS THE FIX: The script freezes here and waits until the data actually appears.
-        await page.waitForFunction(() => document.body.innerText.toLowerCase().includes('demand'), { timeout: 45000 });
+        console.log("Waiting for LIVE data to render...");
+        // THE FIX: This forces the script to freeze until a demand fraction physically appears on screen.
+        await page.waitForFunction(() => document.body.innerText.match(/[0-9]+\/10/), { timeout: 45000 });
 
         console.log("Scrolling page to trigger lazy loading...");
         await page.evaluate(async () => {
@@ -41,68 +41,101 @@ puppeteer.use(StealthPlugin());
             }
         });
 
-        console.log("Extracting LIVE data...");
         const getItems = async (isPerm) => {
             return await page.evaluate((isPerm) => {
                 const items = {};
                 
-                const nodes = Array.from(document.querySelectorAll('*')).filter(el => 
-                    el.textContent.match(/^[0-9]+\/10$/) && el.children.length === 0
-                );
-                
-                nodes.forEach(demandEl => {
-                    let card = demandEl.parentElement;
-                    for(let i=0; i<4; i++) { if(card && card.parentElement) card = card.parentElement; }
+                // ULTIMATE FIX: Bypass all HTML tags, divs, and layouts completely. 
+                // Convert the entire page into a single flat array of visible words.
+                const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+                const words = [];
+                let n;
+                while(n = walker.nextNode()) {
+                    const text = n.textContent.trim();
+                    if(text) words.push(text);
+                }
+
+                for (let i = 0; i < words.length; i++) {
+                    const w = words[i].toLowerCase();
                     
-                    if(card) {
-                        const rawText = card.textContent || "";
-                        const canBePermanent = rawText.toLowerCase().includes("regular") && rawText.toLowerCase().includes("permanent");
-
-                        // Skip if it's a permanent sweep but the item doesn't have a perm version
-                        if (isPerm && !canBePermanent) return;
-
-                        const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
-                        let leaves = [];
-                        let n;
-                        while(n = walker.nextNode()) if(n.textContent.trim()) leaves.push(n.textContent.trim());
-
-                        const valIdx = leaves.findIndex(l => l.toLowerCase() === 'value');
-                        const demIdx = leaves.findIndex(l => l.toLowerCase() === 'demand');
-                        const trenIdx = leaves.findIndex(l => l.toLowerCase() === 'trend');
-
-                        if (valIdx !== -1 && demIdx !== -1 && trenIdx !== -1) {
-                            const value = leaves[valIdx + 1];
-                            const demand = leaves[demIdx + 1];
-                            const trend = leaves[trenIdx + 1];
-
-                            const skip = ["mythical", "legendary", "rare", "uncommon", "common", "gamepass", "new", "regular", "permanent"];
-                            let name = "";
-                            
-                            for(let i=0; i < valIdx; i++) {
-                                if (!skip.includes(leaves[i].toLowerCase())) {
-                                    name = leaves[i];
+                    // 1. ANCHOR: Find the Demand fraction (e.g. "10/10")
+                    if (w.match(/[0-9]+\/10/)) {
+                        const demand = w.match(/[0-9]+\/10/)[0].toUpperCase();
+                        
+                        // 2. Look ahead for Trend
+                        let trend = "Stable";
+                        for (let j = 1; j <= 5; j++) {
+                            if (words[i+j]) {
+                                const t = words[i+j].toLowerCase();
+                                if (t.includes("overpaid")) { trend = "Overpaid"; break; }
+                                if (t.includes("underpaid")) { trend = "Underpaid"; break; }
+                                if (t.includes("stable")) { trend = "Stable"; break; }
+                                if (t.includes("soon")) { trend = "SOON"; break; }
+                            }
+                        }
+                        
+                        // 3. Look backward for Value
+                        let value = "0";
+                        let valIdx = -1;
+                        for (let j = 1; j <= 6; j++) {
+                            if (words[i-j]) {
+                                const v = words[i-j].toUpperCase();
+                                if (v.match(/^[0-9\.]+[KMBT]$/) || v === "N/A" || v.match(/^[0-9]+$/)) {
+                                    value = v;
+                                    valIdx = i - j;
                                     break;
                                 }
                             }
-
-                            if (name && value && value !== "0") {
-                                let finalName = name;
-                                if (isPerm && canBePermanent && !finalName.toLowerCase().startsWith("permanent")) {
-                                    finalName = "Permanent " + finalName;
+                        }
+                        
+                        // 4. Look backward for Name
+                        let name = "";
+                        const skip = ["mythical", "legendary", "rare", "uncommon", "common", "gamepass", "new", "regular", "permanent", "value", "value:", "demand", "demand:", "trend", "trend:", "limited"];
+                        if (valIdx !== -1) {
+                            for (let j = 1; j <= 8; j++) {
+                                if (words[valIdx-j]) {
+                                    const cand = words[valIdx-j];
+                                    if (!skip.includes(cand.toLowerCase()) && cand.length > 2 && !cand.match(/^[0-9]/)) {
+                                        name = cand;
+                                        break;
+                                    }
                                 }
-                                items[finalName] = { 
-                                    Value: value.toUpperCase(), 
-                                    Demand: demand.toUpperCase(), 
-                                    Trend: trend 
-                                };
                             }
                         }
+                        
+                        // 5. Check if it's eligible for a Permanent variant
+                        let canBePermanent = false;
+                        if (valIdx !== -1) {
+                            for (let j = 1; j <= 15; j++) {
+                                if (words[valIdx-j] && (words[valIdx-j].toLowerCase() === "regular" || words[valIdx-j].toLowerCase() === "permanent")) {
+                                    canBePermanent = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (name && value !== "0" && !name.toLowerCase().includes("features")) {
+                            if (isPerm && !canBePermanent) continue;
+                            
+                            let finalName = name;
+                            if (isPerm && !finalName.toLowerCase().startsWith("permanent")) {
+                                finalName = "Permanent " + finalName;
+                            }
+                            
+                            items[finalName] = {
+                                Value: value,
+                                Demand: demand,
+                                Trend: trend
+                            };
+                        }
                     }
-                });
+                }
+                
                 return items;
             }, isPerm);
         };
 
+        console.log("Extracting BASE live data...");
         const baseItems = await getItems(false);
 
         console.log("Switching to Permanent view...");
@@ -114,6 +147,7 @@ puppeteer.use(StealthPlugin());
 
         await new Promise(r => setTimeout(r, 2000));
         
+        console.log("Extracting PERMANENT live data...");
         const permItems = await getItems(true);
         const finalData = { ...baseItems, ...permItems };
 
