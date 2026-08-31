@@ -35,56 +35,59 @@ puppeteer.use(StealthPlugin());
         
         const data = await page.evaluate(async () => {
             const items = {};
-            const skipHeaders = [
-                "MYTHICAL", "LEGENDARY", "RARE", "UNCOMMON", 
-                "COMMON", "LIMITED", "GAMEPASS", "VALUE"
-            ];
             
             const scrapeCurrentDOM = (isPermSweep) => {
-                const allElements = document.querySelectorAll('div, a');
-                
-                allElements.forEach(el => {
-                    const text = el.innerText || "";
-                    if (text.toLowerCase().includes("value") && text.toLowerCase().includes("demand")) {
-                        const lines = text.split('\n').map(t => t.trim()).filter(t => t.length > 0);
-                        const name = lines[0];
+                const allDivs = Array.from(document.querySelectorAll('div'));
+                const cards = allDivs.filter(div => {
+                    const text = div.innerText || "";
+                    return text.includes("Value") && text.includes("Demand") && text.split('\n').length < 35;
+                });
+
+                const innerCards = cards.filter(card => {
+                    return !cards.some(other => card !== other && card.contains(other));
+                });
+
+                innerCards.forEach(card => {
+                    const textLines = card.innerText.split('\n').map(t => t.trim()).filter(t => t);
+                    
+                    let value = "0";
+                    let demand = "0";
+                    let trend = "Stable";
+                    let valIndex = -1;
+                    
+                    for (let i = 0; i < textLines.length; i++) {
+                        const line = textLines[i].toLowerCase();
+                        if (line === "value") { value = textLines[i+1]; valIndex = i; }
+                        else if (line.startsWith("value:") || line.startsWith("value ")) { value = textLines[i].replace(/value/i, '').replace(':', '').trim(); valIndex = i; }
                         
-                        if (!name || skipHeaders.includes(name.toUpperCase()) || name.includes("Value List") || lines.length > 30) return;
+                        if (line === "demand") demand = textLines[i+1];
+                        else if (line.startsWith("demand:") || line.startsWith("demand ")) demand = textLines[i].replace(/demand/i, '').replace(':', '').trim();
                         
-                        const hasToggle = text.includes("Regular") && text.includes("Permanent");
-                        
-                        if (isPermSweep && !hasToggle) return;
-                        
-                        let value = "0";
-                        let demand = "0";
-                        let trend = "Stable";
-                        
-                        for (let i = 0; i < lines.length; i++) {
-                            const currentLine = lines[i].toLowerCase();
-                            
-                            if (currentLine === "value" && lines[i+1]) value = lines[i+1];
-                            else if (currentLine.startsWith("value")) value = lines[i].replace(/value/i, '').replace(':', '').trim();
-                            
-                            if (currentLine === "demand" && lines[i+1]) demand = lines[i+1];
-                            else if (currentLine.startsWith("demand")) demand = lines[i].replace(/demand/i, '').replace(':', '').trim();
-                            
-                            if (currentLine === "trend" && lines[i+1]) trend = lines[i+1];
-                            else if (currentLine.startsWith("trend")) trend = lines[i].replace(/trend/i, '').replace(':', '').trim();
-                        }
-                        
-                        let finalName = name;
-                        if (isPermSweep && hasToggle) {
-                            if (!name.toLowerCase().startsWith("permanent")) {
-                                finalName = "Permanent " + name;
+                        if (line === "trend") trend = textLines[i+1];
+                        else if (line.startsWith("trend:") || line.startsWith("trend ")) trend = textLines[i].replace(/trend/i, '').replace(':', '').trim();
+                    }
+                    
+                    if (value !== "0" && value !== undefined) {
+                        const skipWords = ["MYTHICAL", "LEGENDARY", "RARE", "UNCOMMON", "COMMON", "NEW", "LIMITED", "GAMEPASS"];
+                        let name = "";
+                        const limit = valIndex !== -1 ? valIndex : textLines.length;
+                        for(let i = 0; i < limit; i++) {
+                            if (!skipWords.includes(textLines[i].toUpperCase()) && textLines[i].length > 2) {
+                                name = textLines[i];
+                                break;
                             }
                         }
                         
-                        if (!items[finalName] && value !== "0" && value !== "") {
-                            items[finalName] = {
-                                Value: value,
-                                Demand: demand,
-                                Trend: trend
-                            };
+                        if (name) {
+                            const hasToggle = card.innerText.includes("Regular") && card.innerText.includes("Permanent");
+                            if (isPermSweep && !hasToggle) return;
+                            
+                            let finalName = name;
+                            if (isPermSweep && hasToggle && !name.toLowerCase().startsWith("permanent")) {
+                                finalName = "Permanent " + name;
+                            }
+                            
+                            items[finalName] = { Value: value, Demand: demand, Trend: trend };
                         }
                     }
                 });
