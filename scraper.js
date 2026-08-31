@@ -17,26 +17,21 @@ puppeteer.use(StealthPlugin());
         
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'networkidle2', timeout: 30000 });
         
-        await page.screenshot({ path: 'debug.png', fullPage: true });
-        
         await page.evaluate(async () => {
-            await new Promise((resolve) => {
-                let totalHeight = 0;
-                const distance = 200;
-                const timer = setInterval(() => {
-                    const scrollHeight = document.body.scrollHeight;
-                    window.scrollBy(0, distance);
-                    totalHeight += distance;
-
-                    if (totalHeight >= scrollHeight || totalHeight > 10000) {
-                        clearInterval(timer);
-                        resolve();
-                    }
-                }, 150);
-            });
+            const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            while (true) {
+                window.scrollBy(0, 800);
+                await delay(800);
+                if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+                    break;
+                }
+                if (window.scrollY > 20000) break;
+            }
         });
 
-        await new Promise(r => setTimeout(r, 5000));
+        await new Promise(r => setTimeout(r, 2000));
+        
+        await page.screenshot({ path: 'debug.png', fullPage: true });
         
         const data = await page.evaluate(async () => {
             const items = {};
@@ -50,7 +45,7 @@ puppeteer.use(StealthPlugin());
                 
                 allElements.forEach(el => {
                     const text = el.innerText || "";
-                    if (text.includes("Value") && text.includes("Demand") && text.includes("Trend")) {
+                    if (text.toLowerCase().includes("value") && text.toLowerCase().includes("demand")) {
                         const lines = text.split('\n').map(t => t.trim()).filter(t => t.length > 0);
                         const name = lines[0];
                         
@@ -65,9 +60,16 @@ puppeteer.use(StealthPlugin());
                         let trend = "Stable";
                         
                         for (let i = 0; i < lines.length; i++) {
-                            if (lines[i] === "Value" && lines[i+1]) value = lines[i+1];
-                            if (lines[i] === "Demand" && lines[i+1]) demand = lines[i+1];
-                            if (lines[i] === "Trend" && lines[i+1]) trend = lines[i+1];
+                            const currentLine = lines[i].toLowerCase();
+                            
+                            if (currentLine === "value" && lines[i+1]) value = lines[i+1];
+                            else if (currentLine.startsWith("value")) value = lines[i].replace(/value/i, '').replace(':', '').trim();
+                            
+                            if (currentLine === "demand" && lines[i+1]) demand = lines[i+1];
+                            else if (currentLine.startsWith("demand")) demand = lines[i].replace(/demand/i, '').replace(':', '').trim();
+                            
+                            if (currentLine === "trend" && lines[i+1]) trend = lines[i+1];
+                            else if (currentLine.startsWith("trend")) trend = lines[i].replace(/trend/i, '').replace(':', '').trim();
                         }
                         
                         let finalName = name;
@@ -77,7 +79,7 @@ puppeteer.use(StealthPlugin());
                             }
                         }
                         
-                        if (!items[finalName] && value !== "0") {
+                        if (!items[finalName] && value !== "0" && value !== "") {
                             items[finalName] = {
                                 Value: value,
                                 Demand: demand,
