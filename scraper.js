@@ -18,12 +18,16 @@ puppeteer.use(StealthPlugin());
         console.log("Navigating to site...");
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'networkidle2', timeout: 30000 });
         
-        console.log("Scrolling page to trigger lazy loading...");
+        console.log("Scrolling all containers to trigger lazy loading...");
         await page.evaluate(async () => {
-            const delay = (ms) => new Promise(r => setTimeout(r, ms));
-            // Slower, consistent scrolling to guarantee the skeleton loaders populate
+            const delay = ms => new Promise(r => setTimeout(r, ms));
             for(let i = 0; i < 20; i++) {
-                window.scrollBy(0, 800);
+                // Scroll the main window
+                window.scrollBy(0, 1000);
+                // Force-scroll any internal React containers holding the items
+                document.querySelectorAll('div').forEach(d => {
+                    if (d.scrollHeight > d.clientHeight) d.scrollBy(0, 1000);
+                });
                 await delay(500);
             }
         });
@@ -33,117 +37,133 @@ puppeteer.use(StealthPlugin());
 
         console.log("Extracting data...");
 
-        // Reusable function to scrape items, which we will call twice (once for base, once for perm)
         const getItems = async (isPerm) => {
             return await page.evaluate((isPerm) => {
                 const items = {};
                 
-                // 1. Find every element on the page
-                const allEls = Array.from(document.querySelectorAll('*'));
-                
-                // 2. ONLY keep elements that contain a Demand fraction (e.g. "8/10" or "10/10")
-                // This completely ignores SEO text, headers, and trade ads.
-                const cards = allEls.filter(el => {
-                    const txt = el.innerText || "";
-                    return txt.match(/[0-9]+\/10/);
-                });
+                // 1. Grab EVERY raw text node from the DOM tree. 
+                // This ignores all CSS, invisible layouts, and headless rendering bugs.
+                const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+                const nodes = [];
+                let n;
+                while(n = walker.nextNode()) {
+                    const t = n.textContent.trim();
+                    if(t) nodes.push(t);
+                }
 
-                // 3. Keep only the innermost wrappers to avoid parsing the parent container multiple times
-                const innerCards = cards.filter(c => !cards.some(other => c !== other && c.contains(other)));
-
-                innerCards.forEach(card => {
-                    const rawText = card.innerText || "";
-                    // Split by newlines, clean up spaces, and flatten into a single string
-                    const lines = rawText.split('\n').map(l => l.trim()).filter(l => l);
-                    const flatText = lines.join(' ');
-
-                    // Fallback defaults
-                    let value = "0";
-                    let demand = "0";
-                    let trend = "Stable";
-
-                    // Extract Value (Looks for the word Value, then grabs the number and M/B/K/T)
-                    const vMatch = flatText.match(/Value\s*([0-9\.]+[KMBT]?|N\/A)/i);
-                    if (vMatch) {
-                        value = vMatch[1];
-                    } else {
-                        // Hard fallback if the word "Value" is missing but a number exists
-                        const fallback = flatText.match(/\b([0-9\.]+[KMBT])\b/i);
-                        if (fallback) value = fallback[1];
+                // 2. Loop through the flat text array to find items
+                for (let i = 0; i < nodes.length; i++) {
+                    const nodeLower = nodes[i].toLowerCase();
+                    
+                    let isValue = false;
+                    let valueStr = "0";
+                    
+                    // Identify if this word is "Value" or "Value: 3.91B"
+                    if (nodeLower === "value" && nodes[i+1]) {
+                        isValue = true;
+                        valueStr = nodes[i+1];
+                    } else if (nodeLower.startsWith("value:") || nodeLower.startsWith("value ")) {
+                        isValue = true;
+                        valueStr = nodes[i].replace(/value/i, '').replace(':', '').trim();
                     }
-
-                    // Extract Demand (Locks onto the X/10 format)
-                    const dMatch = flatText.match(/([0-9]+\/10|SOON|N\/A)/i);
-                    if (dMatch) demand = dMatch[1];
-
-                    // Extract Trend
-                    const tMatch = flatText.match(/(Stable|Overpaid|Underpaid|SOON)/i);
-                    if (tMatch) {
-                        const tLower = tMatch[1].toLowerCase();
-                        if (tLower === 'stable') trend = "Stable";
-                        if (tLower === 'overpaid') trend = "Overpaid";
-                        if (tLower === 'underpaid') trend = "Underpaid";
-                        if (tLower === 'soon') trend = "SOON";
-                    }
-
-                    // Extract Name (Takes the first line that isn't a category header or a button)
-                    const skipWords = ["mythical", "legendary", "rare", "uncommon", "common", "limited", "gamepass", "new", "value", "demand", "trend", "physical", "permanent", "regular", "buy", "sell"];
-                    let name = "";
-                    for (const line of lines) {
-                        if (!skipWords.includes(line.toLowerCase()) && !line.match(/[0-9]/) && line.length > 2) {
-                            name = line;
-                            break;
-                        }
-                    }
-
-                    // Save the item
-                    if (name && value && value !== "0") {
-                        let finalName = name;
+                    
+                    if (isValue) {
+                        let demandStr = "0";
+                        let trendStr = "Stable";
                         
-                        // Add "Permanent " prefix if we are in the Perm Sweep
-                        if (isPerm && !name.toLowerCase().startsWith("permanent")) {
-                            finalName = "Permanent " + name;
+                        // Look ahead up to 8 words to find Demand and Trend
+                        for (let j = 0; j <= 8; j++) {
+                            if (!nodes[i+j]) continue;
+                            const lookLower = nodes[i+j].toLowerCase();
+                            
+                            if (lookLower === "demand" && nodes[i+j+1]) demandStr = nodes[i+j+1];
+                            else if (lookLower.startsWith("demand:") || lookLower.startsWith("demand ")) demandStr = nodes[i+j].replace(/demand/i, '').replace(':', '').trim();
+                            
+                            if (lookLower === "trend" && nodes[i+j+1]) trendStr = nodes[i+j+1];
+                            else if (lookLower.startsWith("trend:") || lookLower.startsWith("trend ")) trendStr = nodes[i+j].replace(/trend/i, '').replace(':', '').trim();
                         }
                         
-                        items[finalName] = {
-                            Value: value.toUpperCase(),
-                            Demand: demand.toUpperCase(),
-                            Trend: trend
-                        };
+                        // Clean up parsed data
+                        if (demandStr.includes("/")) demandStr = demandStr.split(" ")[0]; 
+                        
+                        const tMatch = trendStr.match(/(Stable|Overpaid|Underpaid|SOON)/i);
+                        if (tMatch) {
+                            const tl = tMatch[1].toLowerCase();
+                            if(tl === 'stable') trendStr = 'Stable';
+                            if(tl === 'overpaid') trendStr = 'Overpaid';
+                            if(tl === 'underpaid') trendStr = 'Underpaid';
+                            if(tl === 'soon') trendStr = 'SOON';
+                        }
+                        
+                        // Look backward up to 8 words to find the Item Name
+                        let nameStr = "";
+                        const skip = [
+                            "mythical", "legendary", "rare", "uncommon", "common", "gamepass", 
+                            "regular", "permanent", "new", "limited", "value", "demand", "trend", 
+                            "trade", "ads", "calculator", "list", "search", "fruits", "tracking", 
+                            "features", "update", "buy", "sell", "home", "discord"
+                        ];
+                        
+                        for (let j = 1; j <= 8; j++) {
+                            if (!nodes[i-j]) continue;
+                            const cand = nodes[i-j];
+                            const cLow = cand.toLowerCase();
+                            
+                            // A valid name is not a skip word, not a number, and isn't website SEO text
+                            if (!skip.includes(cLow) && 
+                                cand.length > 2 && 
+                                !cand.match(/^[0-9\.]+[KMBT]?$/i) && 
+                                !cand.match(/^[0-9]+\s*\/\s*10$/) && 
+                                !cand.includes("Blox Fruits features")) {
+                                nameStr = cand;
+                                break; 
+                            }
+                        }
+                        
+                        // Validate and save to dictionary
+                        if (nameStr && valueStr !== "0" && !valueStr.toLowerCase().includes("demand") && !valueStr.toLowerCase().includes("list")) {
+                            let finalName = nameStr;
+                            if (isPerm && !nameStr.toLowerCase().startsWith("permanent")) {
+                                finalName = "Permanent " + nameStr;
+                            }
+                            
+                            items[finalName] = {
+                                Value: valueStr.toUpperCase(),
+                                Demand: demandStr.toUpperCase(),
+                                Trend: trendStr
+                            };
+                        }
                     }
-                });
+                }
                 
                 return items;
             }, isPerm);
         };
 
-        // Scrape Base Items
         console.log("Scraping base items...");
         const baseItems = await getItems(false);
 
-        // Click the Permanent tab/button
         console.log("Switching to Permanent view...");
         await page.evaluate(() => {
             const btns = Array.from(document.querySelectorAll('button, div, span'));
-            const permBtn = btns.find(b => (b.innerText || "").toLowerCase().trim() === "permanent");
+            const permBtn = btns.find(b => {
+                const text = (b.textContent || "").toLowerCase().trim();
+                return text.includes("permanent") && text.length < 15;
+            });
             if (permBtn) { 
                 try { permBtn.click(); } catch(e) {} 
             }
         });
 
-        // Wait for values to update
         await new Promise(r => setTimeout(r, 2000));
 
-        // Scrape Permanent Items
         console.log("Scraping permanent items...");
         const permItems = await getItems(true);
 
-        // Merge both dictionaries together to match your required formatting
         const finalData = { ...baseItems, ...permItems };
 
         console.log(`Successfully parsed ${Object.keys(finalData).length} real items!`);
 
-        // Validate and Save
         if (Object.keys(finalData).length > 0) {
             fs.writeFileSync('values.json', JSON.stringify(finalData, null, 2));
             console.log("Successfully updated values.json");
