@@ -34,54 +34,75 @@ puppeteer.use(StealthPlugin());
         await new Promise(r => setTimeout(r, 2000));
         await page.screenshot({ path: 'debug.png', fullPage: true });
         
-        console.log("Extracting data via TreeWalker...");
+        console.log("Extracting data via Regex pattern matching...");
         const data = await page.evaluate(async () => {
             const items = {};
             
             const scrapeCurrentDOM = (isPermSweep) => {
-                const valueLabels = Array.from(document.querySelectorAll('*')).filter(el => 
-                    el.textContent.trim() === 'Value' && el.children.length === 0
-                );
+                // Find all elements in the DOM
+                const allElements = Array.from(document.querySelectorAll('*'));
+                
+                // Keep only elements that contain our necessary keywords
+                const cards = allElements.filter(el => {
+                    const t = el.textContent || "";
+                    return t.includes("Value") && t.includes("Demand") && t.includes("Trend");
+                });
 
-                const processedCards = new Set();
+                // Isolate the innermost container for each item (prevents scraping the whole page as one card)
+                const innerCards = cards.filter(card => {
+                    return !cards.some(other => card !== other && card.contains(other));
+                });
 
-                valueLabels.forEach(label => {
-                    let card = label.parentElement;
-                    while (card && !card.textContent.includes('Demand')) {
-                        card = card.parentElement;
-                        if (card === document.body) break;
-                    }
-                    if (!card || card === document.body || processedCards.has(card)) return;
-                    processedCards.add(card);
-
-                    // Extract raw text nodes bypassing CSS visual rendering issues
+                innerCards.forEach(card => {
+                    // Extract text with guaranteed spacing between HTML nodes
+                    let spacedText = "";
                     const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
-                    const textNodes = [];
                     let node;
                     while (node = walker.nextNode()) {
-                        const t = node.textContent.trim();
-                        if (t) textNodes.push(t);
+                        const val = node.textContent.trim();
+                        if (val) spacedText += val + " \n ";
                     }
 
-                    let value = "0", demand = "0", trend = "Stable", name = "";
-                    let valIdx = textNodes.indexOf("Value");
-                    let demIdx = textNodes.indexOf("Demand");
-                    let trenIdx = textNodes.indexOf("Trend");
+                    // Use Regex to pull data regardless of layout or line breaks
+                    const valMatch = spacedText.match(/Value[:\s]*([0-9\.]+[KMBT]?|N\/A)/i);
+                    const demMatch = spacedText.match(/Demand[:\s]*([0-9]+\/10|SOON|N\/A)/i);
+                    const trenMatch = spacedText.match(/Trend[:\s]*(Stable|Overpaid|Underpaid|SOON|N\/A)/i);
 
-                    if (valIdx !== -1 && textNodes[valIdx + 1]) value = textNodes[valIdx + 1];
-                    if (demIdx !== -1 && textNodes[demIdx + 1]) demand = textNodes[demIdx + 1];
-                    if (trenIdx !== -1 && textNodes[trenIdx + 1]) trend = textNodes[trenIdx + 1];
+                    const value = valMatch ? valMatch[1].toUpperCase() : "0";
+                    const demand = demMatch ? demMatch[1].toUpperCase() : "0";
                     
-                    const skip = ["mythical", "legendary", "rare", "uncommon", "common", "limited", "gamepass", "regular", "permanent", "new"];
-                    
-                    for (let i = 0; i < valIdx; i++) {
-                        if (!skip.includes(textNodes[i].toLowerCase()) && textNodes[i].length > 1) {
-                            name = textNodes[i];
+                    let trend = trenMatch ? trenMatch[1] : "Stable";
+                    if (trend.toLowerCase() === "stable") trend = "Stable";
+                    if (trend.toLowerCase() === "overpaid") trend = "Overpaid";
+                    if (trend.toLowerCase() === "underpaid") trend = "Underpaid";
+                    if (trend.toLowerCase() === "soon") trend = "SOON";
+
+                    // Figure out the Name of the item
+                    let name = "";
+                    const lines = spacedText.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+                    const skipWords = [
+                        "mythical", "legendary", "rare", "uncommon", "common", 
+                        "limited", "gamepass", "new", "regular", "permanent",
+                        "value", "demand", "trend"
+                    ];
+
+                    for (const line of lines) {
+                        // The first line that isn't a skip word, number, or trend is the Name
+                        if (
+                            !skipWords.includes(line.toLowerCase()) &&
+                            line.length > 2 &&
+                            !line.match(/^[0-9\.]+[KMBT]?$/i) &&
+                            !line.match(/^[0-9]+\/10$/) &&
+                            !line.match(/^(Stable|Overpaid|Underpaid|SOON|N\/A)$/i)
+                        ) {
+                            name = line;
+                            break;
                         }
                     }
 
-                    if (name && value && value !== "0") {
-                        const hasToggle = textNodes.some(t => t.toLowerCase() === 'regular') && textNodes.some(t => t.toLowerCase() === 'permanent');
+                    if (name && value !== "0") {
+                        const hasToggle = spacedText.toLowerCase().includes('regular') && 
+                                          spacedText.toLowerCase().includes('permanent');
                         
                         if (isPermSweep && !hasToggle) return;
                         
@@ -99,26 +120,25 @@ puppeteer.use(StealthPlugin());
                 });
             };
 
-            // Scrape normal items
+            // Scrape Base Items
             scrapeCurrentDOM(false);
 
-            // Click to Permanent view
+            // Toggle to Permanent variants
             const buttons = Array.from(document.querySelectorAll('*')).filter(el => 
                 el.textContent.trim() === "Permanent" && el.children.length === 0
             );
             
             buttons.forEach(btn => {
-                try {
-                    btn.click();
-                } catch (e) {}
+                try { btn.click(); } catch (e) {}
             });
 
-            await new Promise(r => setTimeout(r, 2000));
-
-            // Scrape permanent items
-            scrapeCurrentDOM(true);
-
-            return items;
+            // Scrape Permanent Items
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    scrapeCurrentDOM(true);
+                    resolve(items);
+                }, 2000);
+            });
         });
 
         console.log(`Found ${Object.keys(data).length} items.`);
@@ -127,7 +147,6 @@ puppeteer.use(StealthPlugin());
             fs.writeFileSync('values.json', JSON.stringify(data, null, 2));
             console.log("Successfully updated values.json");
         } else {
-            // Fails the GitHub Action to prevent your database from being wiped out
             console.error("ERROR: Scraper returned 0 items. Throwing error to fail GitHub Action.");
             process.exit(1); 
         }
