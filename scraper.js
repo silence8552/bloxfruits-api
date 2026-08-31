@@ -15,8 +15,10 @@ puppeteer.use(StealthPlugin());
         await page.setViewport({ width: 1920, height: 1080 });
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
         
+        console.log("Navigating to site...");
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'networkidle2', timeout: 30000 });
         
+        console.log("Scrolling page to load all items...");
         await page.evaluate(async () => {
             const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
             while (true) {
@@ -30,73 +32,79 @@ puppeteer.use(StealthPlugin());
         });
 
         await new Promise(r => setTimeout(r, 2000));
-        
         await page.screenshot({ path: 'debug.png', fullPage: true });
         
+        console.log("Extracting data via TreeWalker...");
         const data = await page.evaluate(async () => {
             const items = {};
             
             const scrapeCurrentDOM = (isPermSweep) => {
-                const allDivs = Array.from(document.querySelectorAll('div'));
-                const cards = allDivs.filter(div => {
-                    const text = div.innerText || "";
-                    return text.includes("Value") && text.includes("Demand") && text.split('\n').length < 35;
-                });
+                const valueLabels = Array.from(document.querySelectorAll('*')).filter(el => 
+                    el.textContent.trim() === 'Value' && el.children.length === 0
+                );
 
-                const innerCards = cards.filter(card => {
-                    return !cards.some(other => card !== other && card.contains(other));
-                });
+                const processedCards = new Set();
 
-                innerCards.forEach(card => {
-                    const textLines = card.innerText.split('\n').map(t => t.trim()).filter(t => t);
-                    
-                    let value = "0";
-                    let demand = "0";
-                    let trend = "Stable";
-                    let valIndex = -1;
-                    
-                    for (let i = 0; i < textLines.length; i++) {
-                        const line = textLines[i].toLowerCase();
-                        if (line === "value") { value = textLines[i+1]; valIndex = i; }
-                        else if (line.startsWith("value:") || line.startsWith("value ")) { value = textLines[i].replace(/value/i, '').replace(':', '').trim(); valIndex = i; }
-                        
-                        if (line === "demand") demand = textLines[i+1];
-                        else if (line.startsWith("demand:") || line.startsWith("demand ")) demand = textLines[i].replace(/demand/i, '').replace(':', '').trim();
-                        
-                        if (line === "trend") trend = textLines[i+1];
-                        else if (line.startsWith("trend:") || line.startsWith("trend ")) trend = textLines[i].replace(/trend/i, '').replace(':', '').trim();
+                valueLabels.forEach(label => {
+                    let card = label.parentElement;
+                    while (card && !card.textContent.includes('Demand')) {
+                        card = card.parentElement;
+                        if (card === document.body) break;
                     }
+                    if (!card || card === document.body || processedCards.has(card)) return;
+                    processedCards.add(card);
+
+                    // Extract raw text nodes bypassing CSS visual rendering issues
+                    const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
+                    const textNodes = [];
+                    let node;
+                    while (node = walker.nextNode()) {
+                        const t = node.textContent.trim();
+                        if (t) textNodes.push(t);
+                    }
+
+                    let value = "0", demand = "0", trend = "Stable", name = "";
+                    let valIdx = textNodes.indexOf("Value");
+                    let demIdx = textNodes.indexOf("Demand");
+                    let trenIdx = textNodes.indexOf("Trend");
+
+                    if (valIdx !== -1 && textNodes[valIdx + 1]) value = textNodes[valIdx + 1];
+                    if (demIdx !== -1 && textNodes[demIdx + 1]) demand = textNodes[demIdx + 1];
+                    if (trenIdx !== -1 && textNodes[trenIdx + 1]) trend = textNodes[trenIdx + 1];
                     
-                    if (value !== "0" && value !== undefined) {
-                        const skipWords = ["MYTHICAL", "LEGENDARY", "RARE", "UNCOMMON", "COMMON", "NEW", "LIMITED", "GAMEPASS"];
-                        let name = "";
-                        const limit = valIndex !== -1 ? valIndex : textLines.length;
-                        for(let i = 0; i < limit; i++) {
-                            if (!skipWords.includes(textLines[i].toUpperCase()) && textLines[i].length > 2) {
-                                name = textLines[i];
-                                break;
-                            }
+                    const skip = ["mythical", "legendary", "rare", "uncommon", "common", "limited", "gamepass", "regular", "permanent", "new"];
+                    
+                    for (let i = 0; i < valIdx; i++) {
+                        if (!skip.includes(textNodes[i].toLowerCase()) && textNodes[i].length > 1) {
+                            name = textNodes[i];
+                        }
+                    }
+
+                    if (name && value && value !== "0") {
+                        const hasToggle = textNodes.some(t => t.toLowerCase() === 'regular') && textNodes.some(t => t.toLowerCase() === 'permanent');
+                        
+                        if (isPermSweep && !hasToggle) return;
+                        
+                        let finalName = name;
+                        if (isPermSweep && hasToggle && !name.toLowerCase().startsWith("permanent")) {
+                            finalName = "Permanent " + name;
                         }
                         
-                        if (name) {
-                            const hasToggle = card.innerText.includes("Regular") && card.innerText.includes("Permanent");
-                            if (isPermSweep && !hasToggle) return;
-                            
-                            let finalName = name;
-                            if (isPermSweep && hasToggle && !name.toLowerCase().startsWith("permanent")) {
-                                finalName = "Permanent " + name;
-                            }
-                            
-                            items[finalName] = { Value: value, Demand: demand, Trend: trend };
-                        }
+                        items[finalName] = {
+                            Value: value,
+                            Demand: demand,
+                            Trend: trend
+                        };
                     }
                 });
             };
 
+            // Scrape normal items
             scrapeCurrentDOM(false);
 
-            const buttons = Array.from(document.querySelectorAll('button, div')).filter(el => 
-                el.innerText && el.innerText.trim() === "Permanent"
+            // Click to Permanent view
+            const buttons = Array.from(document.querySelectorAll('*')).filter(el => 
+                el.textContent.trim() === "Permanent" && el.children.length === 0
             );
             
             buttons.forEach(btn => {
@@ -107,15 +115,21 @@ puppeteer.use(StealthPlugin());
 
             await new Promise(r => setTimeout(r, 2000));
 
+            // Scrape permanent items
             scrapeCurrentDOM(true);
 
             return items;
         });
 
+        console.log(`Found ${Object.keys(data).length} items.`);
+
         if (Object.keys(data).length > 0) {
             fs.writeFileSync('values.json', JSON.stringify(data, null, 2));
+            console.log("Successfully updated values.json");
         } else {
-            console.warn("WARNING: Scraper returned empty object. values.json was not overwritten.");
+            // Fails the GitHub Action to prevent your database from being wiped out
+            console.error("ERROR: Scraper returned 0 items. Throwing error to fail GitHub Action.");
+            process.exit(1); 
         }
         
         await browser.close();
