@@ -15,7 +15,9 @@ puppeteer.use(StealthPlugin());
         await page.setViewport({ width: 1920, height: 1080 });
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
         
-        await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'domcontentloaded' });
+        await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'networkidle2', timeout: 30000 });
+        
+        await page.screenshot({ path: 'debug.png', fullPage: true });
         
         await page.evaluate(async () => {
             await new Promise((resolve) => {
@@ -105,9 +107,15 @@ puppeteer.use(StealthPlugin());
             return items;
         });
 
-        fs.writeFileSync('values.json', JSON.stringify(data, null, 2));
+        if (Object.keys(data).length > 0) {
+            fs.writeFileSync('values.json', JSON.stringify(data, null, 2));
+        } else {
+            console.warn("WARNING: Scraper returned empty object. values.json was not overwritten.");
+        }
+        
         await browser.close();
     } catch (error) {
+        console.error("Scraper execution failed:", error);
         process.exit(1);
     }
 })();
