@@ -1,20 +1,10 @@
 {
-  "Trade Ads": {
-    "Value": "LIST",
-    "Demand": "0",
-    "Trend": "Stable"
-  },
-  "Blox Fruits features a dynamic trading system where Devil Fruit values are determined by various factors including rarity, type classification, awakening potential, and market demand. Fruits are categorized into Logia (Elemental), Paramecia (Natural), Zoan (Beast), and Special types, each with unique abilities and power scaling that affects their trading value.": {
+  "features a dynamic trading system where Devil Fruit values are determined by various factors including rarity, type classification, awakening potential, and market demand. Fruits are categorized into Logia (Elemental), Paramecia (Natural), Zoan (Beast), and Special types, each with unique abilities and power scaling that affects their trading value.": {
     "Value": "TRACKING FEATURES",
     "Demand": "0",
     "Trend": "Stable"
   },
-  "Permanent Trade Ads": {
-    "Value": "LIST",
-    "Demand": "0",
-    "Trend": "Stable"
-  },
-  "Permanent Blox Fruits features a dynamic trading system where Devil Fruit values are determined by various factors including rarity, type classification, awakening potential, and market demand. Fruits are categorized into Logia (Elemental), Paramecia (Natural), Zoan (Beast), and Special types, each with unique abilities and power scaling that affects their trading value.": {
+  "Permanent features a dynamic trading system where Devil Fruit values are determined by various factors including rarity, type classification, awakening potential, and market demand. Fruits are categorized into Logia (Elemental), Paramecia (Natural), Zoan (Beast), and Special types, each with unique abilities and power scaling that affects their trading value.": {
     "Value": "TRACKING FEATURES",
     "Demand": "0",
     "Trend": "Stable"
