@@ -18,112 +18,89 @@ puppeteer.use(StealthPlugin());
         console.log("Navigating to site...");
         await page.goto('https://bloxfruitsvalues.com/values', { waitUntil: 'networkidle2', timeout: 30000 });
         
-        // Anti-Bot Check: Fail early if Cloudflare blocks the GitHub IP
-        const pageTitle = await page.title();
-        console.log("Page Title:", pageTitle);
-        if (pageTitle.toLowerCase().includes("moment") || pageTitle.toLowerCase().includes("cloudflare")) {
-            console.error("ERROR: Cloudflare block detected!");
-            process.exit(1);
-        }
-
-        console.log("Scrolling page to load all items...");
+        console.log("Scrolling page to trigger lazy loading...");
         await page.evaluate(async () => {
-            const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-            while (true) {
-                window.scrollBy(0, 1000);
-                await delay(1000); // 1s delay per scroll ensures skeleton loaders trigger and resolve
-                if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
-                    break;
-                }
-                if (window.scrollY > 30000) break; 
+            const delay = (ms) => new Promise(r => setTimeout(r, ms));
+            // Slower, consistent scrolling to guarantee the skeleton loaders populate
+            for(let i = 0; i < 20; i++) {
+                window.scrollBy(0, 800);
+                await delay(500);
             }
         });
 
         await new Promise(r => setTimeout(r, 2000));
         await page.screenshot({ path: 'debug.png', fullPage: true });
-        
-        console.log("Extracting raw page text...");
-        // Extracting raw innerText ignores HTML structure entirely and reads the page like a human
-        const pageTextNormal = await page.evaluate(() => document.body.innerText || "");
-        
-        if (!pageTextNormal || pageTextNormal.trim() === "") {
-             console.error("ERROR: Extracted text is empty. Page may not have loaded.");
-             process.exit(1);
-        }
 
-        // Print a snippet of what the scraper "sees" to the GitHub Actions log for debugging
-        console.log("Raw text snippet (first 300 chars):\n", pageTextNormal.substring(0, 300).replace(/\n/g, '\\n'));
+        console.log("Extracting data...");
 
-        console.log("Switching to Permanent view...");
-        await page.evaluate(() => {
-            const elements = Array.from(document.querySelectorAll('button, div, span'));
-            const permButton = elements.find(el => {
-                const text = (el.innerText || "").toLowerCase().trim();
-                return text === "permanent" || text === "perm";
-            });
-            if (permButton) {
-                try { permButton.click(); } catch(e) {}
-            }
-        });
-
-        await new Promise(r => setTimeout(r, 2000));
-        const pageTextPerm = await page.evaluate(() => document.body.innerText || "");
-
-        console.log("Parsing text data...");
-        const items = {};
-
-        const parseText = (rawText, isPerm) => {
-            // Split all text on the page into a line-by-line array
-            const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            const skipWords = ["mythical", "legendary", "rare", "uncommon", "common", "limited", "gamepass", "new", "value", "demand", "trend", "regular", "permanent", "fruits", "blox", "list", "search"];
-
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].toLowerCase();
+        // Reusable function to scrape items, which we will call twice (once for base, once for perm)
+        const getItems = async (isPerm) => {
+            return await page.evaluate((isPerm) => {
+                const items = {};
                 
-                // Fully case-insensitive check for Value
-                if (line === "value" || line.startsWith("value:") || line.startsWith("value ")) {
-                    
+                // 1. Find every element on the page
+                const allEls = Array.from(document.querySelectorAll('*'));
+                
+                // 2. ONLY keep elements that contain a Demand fraction (e.g. "8/10" or "10/10")
+                // This completely ignores SEO text, headers, and trade ads.
+                const cards = allEls.filter(el => {
+                    const txt = el.innerText || "";
+                    return txt.match(/[0-9]+\/10/);
+                });
+
+                // 3. Keep only the innermost wrappers to avoid parsing the parent container multiple times
+                const innerCards = cards.filter(c => !cards.some(other => c !== other && c.contains(other)));
+
+                innerCards.forEach(card => {
+                    const rawText = card.innerText || "";
+                    // Split by newlines, clean up spaces, and flatten into a single string
+                    const lines = rawText.split('\n').map(l => l.trim()).filter(l => l);
+                    const flatText = lines.join(' ');
+
+                    // Fallback defaults
                     let value = "0";
-                    if (line === "value" && lines[i+1]) {
-                        value = lines[i+1];
-                    } else {
-                        value = lines[i].replace(/value/i, '').replace(':', '').trim();
-                    }
-
-                    // Look ahead for Demand
                     let demand = "0";
-                    for(let j = i; j <= Math.min(lines.length - 1, i + 5); j++) {
-                        const dl = lines[j].toLowerCase();
-                        if (dl === "demand" && lines[j+1]) demand = lines[j+1];
-                        else if (dl.startsWith("demand:") || dl.startsWith("demand ")) demand = lines[j].replace(/demand/i, '').replace(':', '').trim();
-                    }
-
-                    // Look ahead for Trend
                     let trend = "Stable";
-                    for(let j = i; j <= Math.min(lines.length - 1, i + 5); j++) {
-                        const tl = lines[j].toLowerCase();
-                        if (tl === "trend" && lines[j+1]) trend = lines[j+1];
-                        else if (tl.startsWith("trend:") || tl.startsWith("trend ")) trend = lines[j].replace(/trend/i, '').replace(':', '').trim();
+
+                    // Extract Value (Looks for the word Value, then grabs the number and M/B/K/T)
+                    const vMatch = flatText.match(/Value\s*([0-9\.]+[KMBT]?|N\/A)/i);
+                    if (vMatch) {
+                        value = vMatch[1];
+                    } else {
+                        // Hard fallback if the word "Value" is missing but a number exists
+                        const fallback = flatText.match(/\b([0-9\.]+[KMBT])\b/i);
+                        if (fallback) value = fallback[1];
                     }
 
-                    // Look backwards up to 6 lines to find the item's name
+                    // Extract Demand (Locks onto the X/10 format)
+                    const dMatch = flatText.match(/([0-9]+\/10|SOON|N\/A)/i);
+                    if (dMatch) demand = dMatch[1];
+
+                    // Extract Trend
+                    const tMatch = flatText.match(/(Stable|Overpaid|Underpaid|SOON)/i);
+                    if (tMatch) {
+                        const tLower = tMatch[1].toLowerCase();
+                        if (tLower === 'stable') trend = "Stable";
+                        if (tLower === 'overpaid') trend = "Overpaid";
+                        if (tLower === 'underpaid') trend = "Underpaid";
+                        if (tLower === 'soon') trend = "SOON";
+                    }
+
+                    // Extract Name (Takes the first line that isn't a category header or a button)
+                    const skipWords = ["mythical", "legendary", "rare", "uncommon", "common", "limited", "gamepass", "new", "value", "demand", "trend", "physical", "permanent", "regular", "buy", "sell"];
                     let name = "";
-                    for (let j = i - 1; j >= Math.max(0, i - 6); j--) {
-                        const nl = lines[j];
-                        // Discard line if it's a structural word, a raw number, or a fraction like 10/10
-                        if (
-                            !skipWords.includes(nl.toLowerCase()) && 
-                            !nl.match(/^[0-9\.]+[KMBT]?$/i) && 
-                            !nl.match(/^[0-9]+\/10$/) &&
-                            nl.length > 2
-                        ) {
-                            name = nl;
+                    for (const line of lines) {
+                        if (!skipWords.includes(line.toLowerCase()) && !line.match(/[0-9]/) && line.length > 2) {
+                            name = line;
                             break;
                         }
                     }
 
-                    if (name && value && value !== "0" && !value.toLowerCase().includes("demand")) {
+                    // Save the item
+                    if (name && value && value !== "0") {
                         let finalName = name;
+                        
+                        // Add "Permanent " prefix if we are in the Perm Sweep
                         if (isPerm && !name.toLowerCase().startsWith("permanent")) {
                             finalName = "Permanent " + name;
                         }
@@ -134,17 +111,41 @@ puppeteer.use(StealthPlugin());
                             Trend: trend
                         };
                     }
-                }
-            }
+                });
+                
+                return items;
+            }, isPerm);
         };
 
-        parseText(pageTextNormal, false);
-        parseText(pageTextPerm, true);
+        // Scrape Base Items
+        console.log("Scraping base items...");
+        const baseItems = await getItems(false);
 
-        console.log(`Found ${Object.keys(items).length} items.`);
+        // Click the Permanent tab/button
+        console.log("Switching to Permanent view...");
+        await page.evaluate(() => {
+            const btns = Array.from(document.querySelectorAll('button, div, span'));
+            const permBtn = btns.find(b => (b.innerText || "").toLowerCase().trim() === "permanent");
+            if (permBtn) { 
+                try { permBtn.click(); } catch(e) {} 
+            }
+        });
 
-        if (Object.keys(items).length > 0) {
-            fs.writeFileSync('values.json', JSON.stringify(items, null, 2));
+        // Wait for values to update
+        await new Promise(r => setTimeout(r, 2000));
+
+        // Scrape Permanent Items
+        console.log("Scraping permanent items...");
+        const permItems = await getItems(true);
+
+        // Merge both dictionaries together to match your required formatting
+        const finalData = { ...baseItems, ...permItems };
+
+        console.log(`Successfully parsed ${Object.keys(finalData).length} real items!`);
+
+        // Validate and Save
+        if (Object.keys(finalData).length > 0) {
+            fs.writeFileSync('values.json', JSON.stringify(finalData, null, 2));
             console.log("Successfully updated values.json");
         } else {
             console.error("ERROR: Scraper parsed 0 items. Throwing error to fail GitHub Action.");
