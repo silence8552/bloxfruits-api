@@ -1,12 +1,617 @@
 {
-  "features a dynamic trading system where Devil Fruit values are determined by various factors including rarity, type classification, awakening potential, and market demand. Fruits are categorized into Logia (Elemental), Paramecia (Natural), Zoan (Beast), and Special types, each with unique abilities and power scaling that affects their trading value.": {
-    "Value": "TRACKING FEATURES",
-    "Demand": "0",
+  "West Dragon": {
+    "Value": "3.33B",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
-  "Permanent features a dynamic trading system where Devil Fruit values are determined by various factors including rarity, type classification, awakening potential, and market demand. Fruits are categorized into Logia (Elemental), Paramecia (Natural), Zoan (Beast), and Special types, each with unique abilities and power scaling that affects their trading value.": {
-    "Value": "TRACKING FEATURES",
-    "Demand": "0",
+  "East Dragon": {
+    "Value": "2.91B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Kitsune": {
+    "Value": "600M",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Control": {
+    "Value": "150M",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Yeti": {
+    "Value": "110M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Gas": {
+    "Value": "60M",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Tiger": {
+    "Value": "120M",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Lightning": {
+    "Value": "40M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Venom": {
+    "Value": "20M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Dough": {
+    "Value": "30M",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Pain": {
+    "Value": "10M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "T-Rex": {
+    "Value": "20M",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Gravity": {
+    "Value": "10M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Mammoth": {
+    "Value": "10M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Spirit": {
+    "Value": "10M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Shadow": {
+    "Value": "6.5M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Portal": {
+    "Value": "10M",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Buddha": {
+    "Value": "10M",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Blizzard": {
+    "Value": "5M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Creation": {
+    "Value": "2.5M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Phoenix": {
+    "Value": "2.75M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Sound": {
+    "Value": "2.5M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Spider": {
+    "Value": "1.5M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Love": {
+    "Value": "1.5M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Magma": {
+    "Value": "1.15M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Quake": {
+    "Value": "1M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Diamond": {
+    "Value": "1M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Light": {
+    "Value": "800K",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Ghost": {
+    "Value": "800K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Eagle": {
+    "Value": "800K",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Rubber": {
+    "Value": "700K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Ice": {
+    "Value": "550K",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Sand": {
+    "Value": "420K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Dark": {
+    "Value": "400K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Flame": {
+    "Value": "250K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Spike": {
+    "Value": "180K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Smoke": {
+    "Value": "100K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Bomb": {
+    "Value": "80K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Spring": {
+    "Value": "60K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Blade": {
+    "Value": "50K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Spin": {
+    "Value": "7.5K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Rocket": {
+    "Value": "5K",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Permanent Dragon Token": {
+    "Value": "N/A",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "🔥🔥": {
+    "Value": "750M",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Fiend Yeti": {
+    "Value": "990M",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Galaxy Empyrean Kitsune": {
+    "Value": "9.96B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Ember West Dragon": {
+    "Value": "6.24B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Crimson Kitsune": {
+    "Value": "7.59B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Meme-Meme": {
+    "Value": "4.29B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Divine Portal": {
+    "Value": "1.56B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Purple Lightning": {
+    "Value": "4.68B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Parrot": {
+    "Value": "N/A",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Red Lightning": {
+    "Value": "2.61B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Yellow Lightning": {
+    "Value": "1.62B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Green Lightning": {
+    "Value": "390M",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Werewolf": {
+    "Value": "1.11B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Rose Quartz Diamond": {
+    "Value": "300M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Emerald Diamond": {
+    "Value": "220M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Topaz Diamond": {
+    "Value": "210M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Ruby Diamond": {
+    "Value": "150M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Dragon Token": {
+    "Value": "N/A",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Eclipse": {
+    "Value": "N/A",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Super Spirit Pain": {
+    "Value": "2.91B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Torment Pain": {
+    "Value": "150M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Sadness Pain": {
+    "Value": "780M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Frustration Pain": {
+    "Value": "810M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Celestial Pain": {
+    "Value": "930M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Eagle Requiem": {
+    "Value": "150M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Eagle Glacier": {
+    "Value": "20M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Eagle Matrix": {
+    "Value": "240M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Celebration Bomb": {
+    "Value": "10M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Azura Bomb": {
+    "Value": "600M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Thermite Bomb": {
+    "Value": "540M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Nuclear Bomb": {
+    "Value": "610M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Fruit Notifier": {
+    "Value": "3.87B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Dark Blade": {
+    "Value": "990M",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Mythical Scrolls": {
+    "Value": "1.44B",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Legendary Scrolls": {
+    "Value": "630M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "+1 Fruit Storage": {
+    "Value": "420M",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Updated 6 days ago": {
+    "Value": "300M",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Fast Boats": {
+    "Value": "300M",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Permanent West Dragon": {
+    "Value": "6.69B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Permanent East Dragon": {
+    "Value": "6.69B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Permanent Kitsune": {
+    "Value": "5.49B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Permanent Control": {
+    "Value": "5.49B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Permanent Yeti": {
+    "Value": "4.29B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Permanent Gas": {
+    "Value": "3.69B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Permanent Tiger": {
+    "Value": "4.29B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Permanent Lightning": {
+    "Value": "2.85B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Permanent Venom": {
+    "Value": "3.57B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Permanent Dough": {
+    "Value": "3.45B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Permanent Pain": {
+    "Value": "2.97B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Permanent T-Rex": {
+    "Value": "3.33B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Permanent Gravity": {
+    "Value": "3.21B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Permanent Mammoth": {
+    "Value": "3.33B",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Permanent Spirit": {
+    "Value": "3.81B",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Permanent Shadow": {
+    "Value": "3.51B",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Permanent Portal": {
+    "Value": "2.49B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Permanent Buddha": {
+    "Value": "1.71B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Permanent Blizzard": {
+    "Value": "3.09B",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Permanent Creation": {
+    "Value": "1.89B",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Phoenix": {
+    "Value": "2.49B",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Sound": {
+    "Value": "2.25B",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Spider": {
+    "Value": "2.01B",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Love": {
+    "Value": "1.77B",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Magma": {
+    "Value": "1.17B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Permanent Quake": {
+    "Value": "1.44B",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Diamond": {
+    "Value": "750M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Light": {
+    "Value": "930M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Permanent Ghost": {
+    "Value": "1.08B",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Permanent Eagle": {
+    "Value": "735M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Rubber": {
+    "Value": "990M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Ice": {
+    "Value": "600M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Permanent Sand": {
+    "Value": "660M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Permanent Dark": {
+    "Value": "720M",
+    "Demand": "3/10",
+    "Trend": "Stable"
+  },
+  "Permanent Flame": {
+    "Value": "450M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Permanent Spike": {
+    "Value": "140M",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Permanent Smoke": {
+    "Value": "120M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Permanent Bomb": {
+    "Value": "90M",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Permanent Spring": {
+    "Value": "60M",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Permanent Blade": {
+    "Value": "20M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Permanent Spin": {
+    "Value": "15M",
+    "Demand": "1/10",
+    "Trend": "Stable"
+  },
+  "Permanent Rocket": {
+    "Value": "10M",
+    "Demand": "2/10",
     "Trend": "Stable"
   }
 }
