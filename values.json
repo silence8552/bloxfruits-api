@@ -1,13 +1,13 @@
 {
   "West Dragon": {
-    "Value": "2.91B",
-    "Demand": "6/10",
-    "Trend": "Stable"
+    "Value": "3.42B",
+    "Demand": "10/10",
+    "Trend": "Overpaid"
   },
   "East Dragon": {
-    "Value": "2.52B",
-    "Demand": "6/10",
-    "Trend": "Stable"
+    "Value": "2.97B",
+    "Demand": "10/10",
+    "Trend": "Overpaid"
   },
   "Kitsune": {
     "Value": "600M",
@@ -19,8 +19,8 @@
     "Demand": "8/10",
     "Trend": "Stable"
   },
-  "🔥🔥🔥": {
-    "Value": "4.38B",
+  "Magnet": {
+    "Value": "990M",
     "Demand": "9/10",
     "Trend": "Stable"
   },
@@ -220,48 +220,63 @@
     "Trend": "Overpaid"
   },
   "Doghouse (Frame Break)": {
-    "Value": "9.39B",
+    "Value": "10.47B",
     "Demand": "10/10",
     "Trend": "Stable"
   },
   "Rabid Dog Blade": {
-    "Value": "12.72B",
+    "Value": "13.74B",
     "Demand": "10/10",
     "Trend": "Stable"
   },
   "Dog Blade": {
-    "Value": "1.35B",
+    "Value": "1.44B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Fiend Yeti": {
-    "Value": "1.14B",
+    "Value": "1.2B",
     "Demand": "10/10",
-    "Trend": "Overpaid"
+    "Trend": "Stable"
   },
   "Galaxy Empyrean Kitsune": {
-    "Value": "9.99B",
+    "Value": "10.47B",
     "Demand": "10/10",
     "Trend": "Stable"
   },
   "Ember West Dragon": {
-    "Value": "6.24B",
+    "Value": "6.51B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
   "Crimson Kitsune": {
-    "Value": "7.41B",
+    "Value": "7.86B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
-  "🔥": {
-    "Value": "600M",
+  "Vibe (Frame Break)": {
+    "Value": "10.47B",
+    "Demand": "10/10",
+    "Trend": "Stable"
+  },
+  "Arcsteel Magnet": {
+    "Value": "3.72B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Runic Fiend": {
+    "Value": "2.28B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Starlight Gravity": {
+    "Value": "510M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
   "Scarlet Ghost": {
-    "Value": "90M",
-    "Demand": "5/10",
+    "Value": "60M",
+    "Demand": "4/10",
     "Trend": "Stable"
   },
   "Lime Blade": {
@@ -270,32 +285,32 @@
     "Trend": "Stable"
   },
   "Meme-Meme": {
-    "Value": "5.64B",
+    "Value": "5.7B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
   "Divine Portal": {
-    "Value": "1.65B",
-    "Demand": "8/10",
-    "Trend": "Stable"
+    "Value": "1.74B",
+    "Demand": "10/10",
+    "Trend": "Overpaid"
   },
   "Parrot": {
-    "Value": "N/A",
-    "Demand": "1/10",
+    "Value": "7.14B",
+    "Demand": "4/10",
     "Trend": "Stable"
   },
   "Purple Lightning": {
-    "Value": "4.74B",
+    "Value": "5.01B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
   "Red Lightning": {
-    "Value": "2.73B",
+    "Value": "2.82B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Yellow Lightning": {
-    "Value": "300M",
+    "Value": "210M",
     "Demand": "5/10",
     "Trend": "Stable"
   },
@@ -307,7 +322,7 @@
   "Werewolf": {
     "Value": "1.29B",
     "Demand": "10/10",
-    "Trend": "Overpaid"
+    "Trend": "Stable"
   },
   "Rose Quartz Diamond": {
     "Value": "300M",
@@ -320,7 +335,7 @@
     "Trend": "Stable"
   },
   "Topaz Diamond": {
-    "Value": "60M",
+    "Value": "40M",
     "Demand": "4/10",
     "Trend": "Stable"
   },
@@ -340,7 +355,7 @@
     "Trend": "Overpaid"
   },
   "Super Spirit Pain": {
-    "Value": "3.18B",
+    "Value": "3.21B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
@@ -350,17 +365,17 @@
     "Trend": "Stable"
   },
   "Sadness Pain": {
-    "Value": "720M",
+    "Value": "630M",
     "Demand": "6/10",
     "Trend": "Stable"
   },
   "Frustration Pain": {
-    "Value": "750M",
+    "Value": "690M",
     "Demand": "6/10",
     "Trend": "Stable"
   },
   "Celestial Pain": {
-    "Value": "870M",
+    "Value": "780M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -375,7 +390,7 @@
     "Trend": "Stable"
   },
   "Eagle Matrix": {
-    "Value": "300M",
+    "Value": "320M",
     "Demand": "5/10",
     "Trend": "Stable"
   },
@@ -464,7 +479,7 @@
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
-  "Permanent 🔥🔥🔥": {
+  "Permanent Magnet": {
     "Value": "4.89B",
     "Demand": "10/10",
     "Trend": "Overpaid"
