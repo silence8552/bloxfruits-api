@@ -2,12 +2,12 @@
   "West Dragon": {
     "Value": "3.54B",
     "Demand": "10/10",
-    "Trend": "Overpaid"
+    "Trend": "Stable"
   },
   "East Dragon": {
     "Value": "2.97B",
     "Demand": "10/10",
-    "Trend": "Overpaid"
+    "Trend": "Stable"
   },
   "Kitsune": {
     "Value": "570M",
@@ -20,7 +20,7 @@
     "Trend": "Stable"
   },
   "Magnet": {
-    "Value": "540M",
+    "Value": "510M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -220,17 +220,17 @@
     "Trend": "Overpaid"
   },
   "Doghouse (Frame Break)": {
-    "Value": "15.12B",
+    "Value": "14.1B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
   "Rabid Dog Blade": {
-    "Value": "25.23B",
+    "Value": "27.21B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Dog Blade": {
-    "Value": "1.89B",
+    "Value": "1.95B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
@@ -242,25 +242,25 @@
   "Galaxy Empyrean Kitsune": {
     "Value": "10.11B",
     "Demand": "10/10",
-    "Trend": "Stable"
+    "Trend": "Overpaid"
   },
   "Ember West Dragon": {
-    "Value": "7.2B",
+    "Value": "7.62B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Crimson Kitsune": {
-    "Value": "7.65B",
+    "Value": "7.8B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
   "Vibe (Frame Break)": {
-    "Value": "12.96B",
+    "Value": "11.7B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Arcsteel Magnet": {
-    "Value": "2.73B",
+    "Value": "2.61B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -285,23 +285,23 @@
     "Trend": "Stable"
   },
   "Meme-Meme": {
-    "Value": "6.63B",
+    "Value": "6.99B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
   "Divine Portal": {
-    "Value": "2.82B",
-    "Demand": "10/10",
+    "Value": "2.73B",
+    "Demand": "9/10",
     "Trend": "Stable"
   },
   "Parrot": {
-    "Value": "7.65B",
+    "Value": "7.8B",
     "Demand": "4/10",
     "Trend": "Stable"
   },
   "Purple Lightning": {
-    "Value": "5.01B",
-    "Demand": "7/10",
+    "Value": "5.1B",
+    "Demand": "8/10",
     "Trend": "Stable"
   },
   "Red Lightning": {
@@ -320,7 +320,7 @@
     "Trend": "Stable"
   },
   "Werewolf": {
-    "Value": "1.32B",
+    "Value": "1.29B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
@@ -355,7 +355,7 @@
     "Trend": "Overpaid"
   },
   "Super Spirit Pain": {
-    "Value": "3.12B",
+    "Value": "3.15B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
@@ -365,18 +365,18 @@
     "Trend": "Stable"
   },
   "Sadness Pain": {
-    "Value": "570M",
-    "Demand": "5/10",
+    "Value": "600M",
+    "Demand": "6/10",
     "Trend": "Stable"
   },
   "Frustration Pain": {
-    "Value": "570M",
+    "Value": "550M",
     "Demand": "5/10",
     "Trend": "Stable"
   },
   "Celestial Pain": {
     "Value": "710M",
-    "Demand": "6/10",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
   "Eagle Requiem": {
@@ -460,12 +460,12 @@
     "Trend": "Overpaid"
   },
   "Permanent West Dragon": {
-    "Value": "6.67B",
+    "Value": "6.51B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
   "Permanent East Dragon": {
-    "Value": "6.67B",
+    "Value": "6.51B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
@@ -480,7 +480,7 @@
     "Trend": "Overpaid"
   },
   "Permanent Magnet": {
-    "Value": "4.5B",
+    "Value": "4.57B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
