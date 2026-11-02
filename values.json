@@ -220,7 +220,7 @@
     "Trend": "Overpaid"
   },
   "🔥": {
-    "Value": "420M",
+    "Value": "540M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -236,126 +236,6 @@
   },
   "Dog Blade": {
     "Value": "2.01B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Fiend Yeti": {
-    "Value": "1.26B",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Galaxy Empyrean Kitsune": {
-    "Value": "10.29B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Ember West Dragon": {
-    "Value": "7.8B",
-    "Demand": "10/10",
-    "Trend": "Overpaid"
-  },
-  "Crimson Kitsune": {
-    "Value": "7.83B",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Vibe (Frame Break)": {
-    "Value": "10.86B",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Arcsteel Magnet": {
-    "Value": "2.55B",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Runic Fiend": {
-    "Value": "1.74B",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Starlight Gravity": {
-    "Value": "420M",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Scarlet Ghost": {
-    "Value": "20M",
-    "Demand": "4/10",
-    "Trend": "Stable"
-  },
-  "Lime Blade": {
-    "Value": "10M",
-    "Demand": "2/10",
-    "Trend": "Stable"
-  },
-  "Meme-Meme": {
-    "Value": "7.23B",
-    "Demand": "9/10",
-    "Trend": "Overpaid"
-  },
-  "Divine Portal": {
-    "Value": "2.64B",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Parrot": {
-    "Value": "7.83B",
-    "Demand": "4/10",
-    "Trend": "Stable"
-  },
-  "Purple Lightning": {
-    "Value": "5.25B",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Red Lightning": {
-    "Value": "2.4B",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Yellow Lightning": {
-    "Value": "150M",
-    "Demand": "7/10",
-    "Trend": "Stable"
-  },
-  "Green Lightning": {
-    "Value": "240M",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Werewolf": {
-    "Value": "1.26B",
-    "Demand": "8/10",
-    "Trend": "Stable"
-  },
-  "Rose Quartz Diamond": {
-    "Value": "240M",
-    "Demand": "6/10",
-    "Trend": "Stable"
-  },
-  "Emerald Diamond": {
-    "Value": "180M",
-    "Demand": "5/10",
-    "Trend": "Stable"
-  },
-  "Topaz Diamond": {
-    "Value": "10M",
-    "Demand": "2/10",
-    "Trend": "Stable"
-  },
-  "Ruby Diamond": {
-    "Value": "110M",
-    "Demand": "5/10",
-    "Trend": "Stable"
-  },
-  "Dragon Token": {
-    "Value": "N/A",
-    "Demand": "4/10",
-    "Trend": "Overpaid"
-  },
-  "Eclipse": {
-    "Value": "N/A",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
@@ -405,7 +285,7 @@
     "Trend": "Overpaid"
   },
   "Permanent Venom": {
-    "Value": "2.97B",
+    "Value": "N/A",
     "Demand": "4/10",
     "Trend": "Overpaid"
   },
