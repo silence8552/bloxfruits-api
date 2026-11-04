@@ -20,7 +20,7 @@
     "Trend": "Stable"
   },
   "Magnet": {
-    "Value": "390M",
+    "Value": "360M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -45,7 +45,7 @@
     "Trend": "Stable"
   },
   "Venom": {
-    "Value": "90M",
+    "Value": "100M",
     "Demand": "10/10",
     "Trend": "Stable"
   },
@@ -219,63 +219,63 @@
     "Demand": "6/10",
     "Trend": "Overpaid"
   },
-  "🔥": {
-    "Value": "270M",
-    "Demand": "7/10",
+  "Hellfire Gas": {
+    "Value": "180M",
+    "Demand": "6/10",
     "Trend": "Stable"
   },
   "Doghouse (Frame Break)": {
-    "Value": "10.8B",
+    "Value": "10.89B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Rabid Dog Blade": {
-    "Value": "20.43B",
+    "Value": "20.7B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Dog Blade": {
-    "Value": "1.71B",
+    "Value": "1.74B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Fiend Yeti": {
-    "Value": "960M",
-    "Demand": "8/10",
+    "Value": "930M",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
   "Galaxy Empyrean Kitsune": {
-    "Value": "8.1B",
+    "Value": "8.19B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Ember West Dragon": {
-    "Value": "6.18B",
+    "Value": "6.03B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Crimson Kitsune": {
-    "Value": "6.21B",
+    "Value": "6.12B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
   "Vibe (Frame Break)": {
-    "Value": "8.1B",
+    "Value": "8.19B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Arcsteel Magnet": {
-    "Value": "1.89B",
-    "Demand": "7/10",
+    "Value": "1.83B",
+    "Demand": "6/10",
     "Trend": "Stable"
   },
   "Runic Fiend": {
     "Value": "1.38B",
-    "Demand": "7/10",
+    "Demand": "8/10",
     "Trend": "Stable"
   },
   "Starlight Gravity": {
-    "Value": "330M",
+    "Value": "300M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -290,22 +290,22 @@
     "Trend": "Stable"
   },
   "Meme-Meme": {
-    "Value": "5.79B",
+    "Value": "5.88B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
   "Divine Portal": {
-    "Value": "1.98B",
-    "Demand": "8/10",
+    "Value": "1.89B",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
   "Parrot": {
-    "Value": "6.21B",
+    "Value": "6.12B",
     "Demand": "4/10",
     "Trend": "Stable"
   },
   "Purple Lightning": {
-    "Value": "4.23B",
+    "Value": "4.32B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
@@ -325,8 +325,8 @@
     "Trend": "Stable"
   },
   "Werewolf": {
-    "Value": "960M",
-    "Demand": "8/10",
+    "Value": "930M",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
   "Rose Quartz Diamond": {
