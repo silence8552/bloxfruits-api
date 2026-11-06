@@ -1,12 +1,12 @@
 {
   "West Dragon": {
     "Value": "2.7B",
-    "Demand": "9/10",
+    "Demand": "8/10",
     "Trend": "Stable"
   },
   "East Dragon": {
     "Value": "2.25B",
-    "Demand": "9/10",
+    "Demand": "8/10",
     "Trend": "Stable"
   },
   "Kitsune": {
@@ -20,7 +20,7 @@
     "Trend": "Stable"
   },
   "Magnet": {
-    "Value": "360M",
+    "Value": "330M",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -45,7 +45,7 @@
     "Trend": "Stable"
   },
   "Venom": {
-    "Value": "100M",
+    "Value": "110M",
     "Demand": "10/10",
     "Trend": "Stable"
   },
@@ -220,22 +220,22 @@
     "Trend": "Overpaid"
   },
   "Hellfire Gas": {
-    "Value": "180M",
-    "Demand": "6/10",
+    "Value": "120M",
+    "Demand": "5/10",
     "Trend": "Stable"
   },
   "Doghouse (Frame Break)": {
-    "Value": "10.89B",
+    "Value": "11.04B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Rabid Dog Blade": {
-    "Value": "20.7B",
+    "Value": "21.42B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Dog Blade": {
-    "Value": "1.74B",
+    "Value": "1.8B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
@@ -245,17 +245,17 @@
     "Trend": "Stable"
   },
   "Galaxy Empyrean Kitsune": {
-    "Value": "8.19B",
+    "Value": "8.46B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Ember West Dragon": {
-    "Value": "6.03B",
+    "Value": "5.97B",
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
   "Crimson Kitsune": {
-    "Value": "6.12B",
+    "Value": "6.09B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
@@ -290,7 +290,7 @@
     "Trend": "Stable"
   },
   "Meme-Meme": {
-    "Value": "5.88B",
+    "Value": "5.76B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
@@ -300,12 +300,12 @@
     "Trend": "Stable"
   },
   "Parrot": {
-    "Value": "6.12B",
+    "Value": "6.09B",
     "Demand": "4/10",
     "Trend": "Stable"
   },
   "Purple Lightning": {
-    "Value": "4.32B",
+    "Value": "4.5B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
@@ -331,12 +331,12 @@
   },
   "Rose Quartz Diamond": {
     "Value": "180M",
-    "Demand": "6/10",
+    "Demand": "5/10",
     "Trend": "Stable"
   },
   "Emerald Diamond": {
     "Value": "150M",
-    "Demand": "5/10",
+    "Demand": "4/10",
     "Trend": "Stable"
   },
   "Topaz Diamond": {
@@ -346,7 +346,7 @@
   },
   "Ruby Diamond": {
     "Value": "80M",
-    "Demand": "5/10",
+    "Demand": "4/10",
     "Trend": "Stable"
   },
   "Dragon Token": {
