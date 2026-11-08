@@ -239,6 +239,126 @@
     "Demand": "10/10",
     "Trend": "Overpaid"
   },
+  "Fiend Yeti": {
+    "Value": "930M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Galaxy Empyrean Kitsune": {
+    "Value": "8.73B",
+    "Demand": "10/10",
+    "Trend": "Overpaid"
+  },
+  "Ember West Dragon": {
+    "Value": "5.91B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Crimson Kitsune": {
+    "Value": "6.27B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Vibe (Frame Break)": {
+    "Value": "8.28B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Arcsteel Magnet": {
+    "Value": "1.83B",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Runic Fiend": {
+    "Value": "1.41B",
+    "Demand": "8/10",
+    "Trend": "Stable"
+  },
+  "Starlight Gravity": {
+    "Value": "300M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Scarlet Ghost": {
+    "Value": "20M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Lime Blade": {
+    "Value": "10M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Meme-Meme": {
+    "Value": "5.85B",
+    "Demand": "9/10",
+    "Trend": "Stable"
+  },
+  "Divine Portal": {
+    "Value": "1.89B",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Parrot": {
+    "Value": "6.27B",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Purple Lightning": {
+    "Value": "5.07B",
+    "Demand": "9/10",
+    "Trend": "Overpaid"
+  },
+  "Red Lightning": {
+    "Value": "1.8B",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Yellow Lightning": {
+    "Value": "120M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Green Lightning": {
+    "Value": "180M",
+    "Demand": "6/10",
+    "Trend": "Stable"
+  },
+  "Werewolf": {
+    "Value": "930M",
+    "Demand": "7/10",
+    "Trend": "Stable"
+  },
+  "Rose Quartz Diamond": {
+    "Value": "180M",
+    "Demand": "5/10",
+    "Trend": "Stable"
+  },
+  "Emerald Diamond": {
+    "Value": "150M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Topaz Diamond": {
+    "Value": "10M",
+    "Demand": "2/10",
+    "Trend": "Stable"
+  },
+  "Ruby Diamond": {
+    "Value": "80M",
+    "Demand": "4/10",
+    "Trend": "Stable"
+  },
+  "Dragon Token": {
+    "Value": "N/A",
+    "Demand": "4/10",
+    "Trend": "Overpaid"
+  },
+  "Eclipse": {
+    "Value": "N/A",
+    "Demand": "10/10",
+    "Trend": "Overpaid"
+  },
   "Permanent West Dragon": {
     "Value": "5.04B",
     "Demand": "9/10",
