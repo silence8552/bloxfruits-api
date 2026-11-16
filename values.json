@@ -20,8 +20,8 @@
     "Trend": "Stable"
   },
   "Magnet": {
-    "Value": "310M",
-    "Demand": "7/10",
+    "Value": "300M",
+    "Demand": "6/10",
     "Trend": "Stable"
   },
   "Yeti": {
@@ -100,7 +100,7 @@
     "Trend": "Stable"
   },
   "Creation": {
-    "Value": "2.5M",
+    "Value": "2M",
     "Demand": "2/10",
     "Trend": "Stable"
   },
@@ -220,23 +220,23 @@
     "Trend": "Overpaid"
   },
   "Hellfire Gas": {
-    "Value": "90M",
+    "Value": "80M",
     "Demand": "5/10",
     "Trend": "Stable"
   },
   "Doghouse (Frame Break)": {
-    "Value": "11.31B",
-    "Demand": "8/10",
+    "Value": "11.55B",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
   "Rabid Dog Blade": {
-    "Value": "23.46B",
+    "Value": "22.41B",
     "Demand": "8/10",
     "Trend": "Stable"
   },
   "Dog Blade": {
-    "Value": "1.74B",
-    "Demand": "8/10",
+    "Value": "1.53B",
+    "Demand": "7/10",
     "Trend": "Stable"
   },
   "Permanent West Dragon": {
