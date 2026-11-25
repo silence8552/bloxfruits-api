@@ -1,11 +1,11 @@
 {
   "West Dragon": {
-    "Value": "2.94B",
+    "Value": "2.88B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
   "East Dragon": {
-    "Value": "2.46B",
+    "Value": "2.4B",
     "Demand": "9/10",
     "Trend": "Stable"
   },
@@ -45,8 +45,8 @@
     "Trend": "Stable"
   },
   "Venom": {
-    "Value": "120M",
-    "Demand": "10/10",
+    "Value": "110M",
+    "Demand": "8/10",
     "Trend": "Stable"
   },
   "Dough": {
@@ -221,46 +221,46 @@
   },
   "Hellfire Gas": {
     "Value": "80M",
-    "Demand": "5/10",
+    "Demand": "4/10",
     "Trend": "Stable"
   },
   "Doghouse (Frame Break)": {
-    "Value": "12.87B",
+    "Value": "12B",
     "Demand": "6/10",
     "Trend": "Stable"
   },
   "Rabid Dog Blade": {
-    "Value": "23.07B",
+    "Value": "23.04B",
     "Demand": "7/10",
     "Trend": "Stable"
   },
   "Dog Blade": {
-    "Value": "1.44B",
+    "Value": "1.35B",
     "Demand": "6/10",
     "Trend": "Stable"
   },
   "Permanent West Dragon": {
-    "Value": "5.76B",
+    "Value": "5.64B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
   "Permanent East Dragon": {
-    "Value": "5.76B",
+    "Value": "5.64B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
   "Permanent Kitsune": {
-    "Value": "4.92B",
+    "Value": "4.86B",
     "Demand": "9/10",
     "Trend": "Overpaid"
   },
   "Permanent Control": {
-    "Value": "4.92B",
+    "Value": "4.86B",
     "Demand": "7/10",
     "Trend": "Underpaid"
   },
   "Permanent Magnet": {
-    "Value": "3.99B",
+    "Value": "3.96B",
     "Demand": "6/10",
     "Trend": "Underpaid"
   },
